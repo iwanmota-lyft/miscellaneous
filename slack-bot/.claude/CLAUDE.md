@@ -189,3 +189,53 @@ Core principles:
 - Grafana dashboards:
   - Telematicsingest: https://grafana.lyft.net/d/H25ayeEWz/telematicsingest
   - Telematics Pipeline: https://grafana.lyft.net/d/HjUnUeEWk/telematics-pipeline
+
+# Workflows
+
+## Daily Slack Digest
+
+Review unread Slack messages across key channels and DMs for the relevant lookback window:
+- **Tuesday–Friday:** last 24 hours
+- **Monday:** since end of Friday (i.e. cover Saturday + Sunday + Monday so no weekend activity
+  is missed)
+
+Produce a bullet-point summary of action items prioritized by:
+1. Was Iwan tagged directly (`<@U0A3084QX5E>`)?
+2. Is it an action item attributable to Iwan?
+3. Is it something that should interest Iwan?
+4. Was it sent by someone in his immediate circle (directs, manager, peers) AND/OR is it
+   relevant to one of his active projects?
+
+For each item include a citation link to the original Slack message so Iwan can drill down.
+
+### Channels to check (in addition to DMs and group DMs)
+- #road-safety-telematics-team (C0A90DB2SFM)
+- #road-safety-telematics-leads (C0A4LNPQB70)
+- #rst-oncall (C02H0EA1H5L)
+- #road-safety-eng (G015DD6E41W)
+- #telematics-eng (G014GD7HG69)
+- #smooth-cruiser-v3-m1 (C0AN4JDUH47)
+- #road-safety-feedback-campaign (C07TEVBP85V)
+- #telematics-all (C016Y7FKR2Q)
+- #android-road-safety-and-telematics-bugs (C086SU00T50)
+- #ios-road-safety-and-telematics-bugs (C086VEKCJ5A)
+
+### Searching for messages
+- Use `after:YYYY-MM-DD` in search queries. Note: this modifier is **exclusive** — to include
+  messages *on* a given date, use the day before (e.g. to include Apr 1, use `after:2026-03-31`).
+- Use `oldest` (Unix timestamp) when reading channels directly to bound the time window.
+
+### Generating citation links — CRITICAL RULE
+Slack permalink format: `https://lyft.slack.com/archives/{channel_id}/p{message_ts_no_dot}`
+
+The `message_ts` value (e.g. `1775059522.084149`) becomes `p1775059522084149` — remove the
+decimal point, **do not pad with zeros**.
+
+**Always obtain `message_ts` from actual tool results** (e.g. `slack_read_channel` with
+`response_format: detailed`, or from search result `Message_ts` fields). Never compute or
+approximate a timestamp from a wall-clock time — the sub-second digits will be wrong and the
+link will appear deleted or inaccessible to the recipient.
+
+### Sending the summary
+Send the digest as a DM to Iwan (user ID: U0A3084QX5E).
+All required Slack MCP connectors are available in the environment.
